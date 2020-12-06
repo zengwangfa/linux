@@ -88,36 +88,41 @@
 			};
 		};
 	};
-	
+
+	beeper {
+		compatible = "gpio-beeper";
+		gpios = <&pio 2 0 GPIO_ACTIVE_HIGH>;
+	};
+
 	leds {
 		compatible = "gpio-leds";
-		pinctrl-names = "default";
-		pinctrl-0 = <&leds_npi>, <&leds_r_npi>;
 
-		status {
-			label = "status_led";
-			gpios = <&pio 0 10 GPIO_ACTIVE_HIGH>;
+		red {
+			label = "red";
+			gpios = <&pio 2 1 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "heartbeat";
 		};
 
-		pwr {
-			label = "LED2";
-			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>;
-			default-state = "on";
+		green {
+			label = "green";
+			gpios = <&pio 2 2 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+
+		blue {
+			label = "blue";
+			gpios = <&pio 2 3 GPIO_ACTIVE_LOW>;
+			default-state = "off";
 		};
 	};
 
-	r_gpio_keys {
+	gpio-keys {
 		compatible = "gpio-keys";
-		input-name = "k1";
-		pinctrl-names = "default";
-		pinctrl-0 = <&sw_r_npi>;
 
-		k1 {
-			label = "k1";
-			linux,code = <KEY_POWER>;
-			gpios = <&r_pio 0 3 GPIO_ACTIVE_LOW>;
-		};
+		label = "debug";
+		linux,code = <KEY_DOWN>;
+		gpios = <&pio 0 7 GPIO_ACTIVE_LOW>;
+		debounce_interval = <50>;
 	};
 
 	vdd_cpux: gpio-regulator {
